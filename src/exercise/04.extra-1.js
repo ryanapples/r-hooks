@@ -1,21 +1,17 @@
 // useState: tic tac toe
-// 💯 (alternate) migrate from classes
-// http://localhost:3000/isolated/exercise/04-classes.js
+// http://localhost:3000/isolated/exercise/04.js
 
 import * as React from 'react'
-import {useLocalStorageState} from '../utils'
-
-// If you'd rather practice refactoring a class component to a function
-// component with hooks, then go ahead and do this exercise.
-
-// 🦉 You've learned all the hooks you need to know to refactor this Board
-// component to hooks. So, let's make it happen!
 
 function Board() {
-  const [squares, setSquares] = useLocalStorageState(
-    'squares',
-    Array(9).fill(null),
+  const [squares, setSquares] = React.useState(
+    () =>
+      JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
   )
+
+  React.useEffect(() => {
+    window.localStorage.setItem('squares', JSON.stringify(squares))
+  }, [squares])
 
   const nextValue = calculateNextValue(squares)
   const winner = calculateWinner(squares)
@@ -30,16 +26,16 @@ function Board() {
     setSquares(squaresCopy)
   }
 
+  function restart() {
+    setSquares(Array(9).fill(null))
+  }
+
   function renderSquare(i) {
     return (
       <button className="square" onClick={() => selectSquare(i)}>
         {squares[i]}
       </button>
     )
-  }
-
-  function restart() {
-    setSquares(Array(9).fill(null))
   }
 
   return (
@@ -77,6 +73,7 @@ function Game() {
   )
 }
 
+// eslint-disable-next-line no-unused-vars
 function calculateStatus(winner, squares, nextValue) {
   return winner
     ? `Winner: ${winner}`
@@ -85,10 +82,12 @@ function calculateStatus(winner, squares, nextValue) {
     : `Next player: ${nextValue}`
 }
 
+// eslint-disable-next-line no-unused-vars
 function calculateNextValue(squares) {
   return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
 }
 
+// eslint-disable-next-line no-unused-vars
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
