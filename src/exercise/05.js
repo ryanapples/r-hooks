@@ -18,7 +18,7 @@ function Tilt({children}) {
       'max-glare': 0.5,
     })
 
-    return () => tiltNode.VanillaTilt.destroy()
+    return () => tiltNode.vanillaTilt.destroy()
   }, [])
 
   // 🐨 add the `ref` prop to the `tilt-root` div here:
