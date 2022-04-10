@@ -19,9 +19,7 @@ function Tilt({children}) {
       glare: true,
       'max-glare': 0.5,
     }
-
     VanillaTilt.init(tiltNode, vanillaTiltOptions)
-
     return () => tiltNode.vanillaTilt.destroy()
   }, [])
 
